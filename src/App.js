@@ -1,23 +1,18 @@
 // src/App.js
-import React, { useState } from 'react';
+import React from 'react';
 import WalletConnection from './components/WalletConnection';
 import ShopModal from './components/ShopModal';
-import { addEggToInventory } from './scripts/addEggs';
-import { updateCoinBalance } from './scripts/openShop';
-
+import { openInventory, closeInventory, giveEggs } from './scripts/inventory';
+import { openShopModal, closeShopModal, buyEgg, buyUpgrade } from './scripts/openShop';
+import { startDiggEgg, createClickArea, updateClickCounter } from './scripts/addEggs';
+import { decreaseEnergy, updateEnergyBar, restoreEnergy, disableClick, enableClick } from './scripts/energy';
 
 function App() {
-  const [coins, setCoins] = useState(0);
-  const handleUpdateCoinBalance = (amount) => {
-    setCoins(coins + amount);
-  };
-  const handleAddEggToInventory = (egg) => {
-    addEggToInventory(egg);
-  };
   return (
-    <div className="App">
+    <div className='App'>
       <WalletConnection />
       <h1>Egg Clicker</h1>
+      <ShopModal />
       <div id="eggDiggModal" className="modal">
         <div className="modal-content"></div>
       </div>
@@ -46,7 +41,7 @@ function App() {
       </div>
       <div id="clickCounter">Начни добывать любое яйцо</div>
       <div id="coinBalanceContainer">
-        <div id="coinBalance">{coins}</div>
+        <div id="coinBalance">0</div>
         <img id="coinImage" src="coin.png" alt="Coin Image" />
       </div>
       <div id="bottomIconsContainer">
@@ -82,13 +77,31 @@ function App() {
           <h2>Description</h2>
         </div>
       </div>
-      <ShopModal
-        coins={coins}
-        updateCoinBalance={handleUpdateCoinBalance}
-        addEggToInventory={handleAddEggToInventory}
-      />
+      <div id="shopModal" className="modal">
+        <div className="modal-content">
+          <span className="close">&times;</span>
+          <h2>Магазин</h2>
+          <div id="shopItems">
+            <div className="shopItem" id="buyCommonEgg">
+              <button className="common-egg-button" onClick={() => buyEgg('Common', 50)}>Купить обычное яйцо - 50 монет</button>
+            </div>
+            <div className="shopItem" id="buyUncommonEgg">
+              <button className="uncommon-egg-button" onClick={() => buyEgg('Uncommon', 1)}>Купить необычное яйцо - 1000 монет</button>
+            </div>
+            <div className="shopItem" id="buyRareEgg">
+              <button className="rare-egg-button" onClick={() => buyEgg('Rare', 1)}>Купить редкое яйцо - 10000 монет</button>
+            </div>
+            <div className="shopItem" id="buySpeedUpgrade">
+              <button className="upgrade-speed-button" onClick={() => buyUpgrade('speed')}>Улучшение скорости (Цена: <span id="speedUpgradePrice">500</span> монет) <span id="speedUpgradeLevel">Lv 1</span></button>
+            </div>
+            <div className="shopItem" id="buyEnergyUpgrade">
+              <button className="upgrade-energy-button" onClick={() => buyUpgrade('energy')}>Улучшение энергии (Цена: <span id="energyUpgradePrice">300</span> монет) <span id="energyUpgradeLevel">Lv 1</span></button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
-}
+};
 
 export default App;
