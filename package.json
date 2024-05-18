@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "@tonconnect/ui-react": "^2.0.2",
+    "express": "^4.19.2",
+    "node-telegram-bot-api": "^0.65.1",
+    "pg": "^8.11.5",
+    "ton": "^13.9.0"
+  }
+}
