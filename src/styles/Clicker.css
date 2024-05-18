@@ -1,0 +1,18 @@
+/* Clicker.css */
+.click-area {
+    width: 200px;
+    height: 200px;
+    background-color: transparent;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .damage-element {
+    position: absolute;
+    color: white;
+    font-size: 16px;
+  }
+  

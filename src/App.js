@@ -12,7 +12,6 @@ function App() {
     <div className='App'>
       <WalletConnection />
       <h1>Egg Clicker</h1>
-      <ShopModal />
       <div id="eggDiggModal" className="modal">
         <div className="modal-content"></div>
       </div>
@@ -86,10 +85,10 @@ function App() {
               <button className="common-egg-button" onClick={() => buyEgg('Common', 50)}>Купить обычное яйцо - 50 монет</button>
             </div>
             <div className="shopItem" id="buyUncommonEgg">
-              <button className="uncommon-egg-button" onClick={() => buyEgg('Uncommon', 1)}>Купить необычное яйцо - 1000 монет</button>
+              <button className="uncommon-egg-button" onClick={() => buyEgg('Uncommon', 1000)}>Купить необычное яйцо - 1000 монет</button>
             </div>
             <div className="shopItem" id="buyRareEgg">
-              <button className="rare-egg-button" onClick={() => buyEgg('Rare', 1)}>Купить редкое яйцо - 10000 монет</button>
+              <button className="rare-egg-button" onClick={() => buyEgg('Rare', 10000)}>Купить редкое яйцо - 10000 монет</button>
             </div>
             <div className="shopItem" id="buySpeedUpgrade">
               <button className="upgrade-speed-button" onClick={() => buyUpgrade('speed')}>Улучшение скорости (Цена: <span id="speedUpgradePrice">500</span> монет) <span id="speedUpgradeLevel">Lv 1</span></button>
@@ -102,6 +101,6 @@ function App() {
       </div>
     </div>
   );
-};
+}
 
 export default App;

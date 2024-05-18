@@ -1,0 +1,31 @@
+/* src/styles/InventoryModal.css */
+.modal {
+    display: flex;
+    position: fixed;
+    z-index: 900;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Полупрозрачный черный фон */
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .modal-content {
+    padding: 20px;
+    background-color: white;
+    border: 2px solid gold; /* Золотая окантовка */
+    border-radius: 10px;
+    width: 80%; /* Можно изменить в зависимости от нужного размера */
+    max-width: 500px; /* Ограничение по максимальной ширине */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Небольшая тень для объема */
+  }
+  
+  .close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+  }
+  

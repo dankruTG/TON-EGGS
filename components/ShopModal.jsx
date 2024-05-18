@@ -1,6 +1,5 @@
-// src/components/ShopModal.jsx
 import React, { useState } from 'react';
-import { buyEgg, buyUpgrade } from '../scripts/openShop';
+import { eggs } from '../data/eggsData';
 
 const ShopModal = ({ coins, updateCoinBalance, addEggToInventory }) => {
   const [speedUpgradeLevel, setSpeedUpgradeLevel] = useState(1);
@@ -8,45 +7,60 @@ const ShopModal = ({ coins, updateCoinBalance, addEggToInventory }) => {
   const [energyUpgradeLevel, setEnergyUpgradeLevel] = useState(1);
   const [energyUpgradePrice, setEnergyUpgradePrice] = useState(3);
 
-  const handleBuyUpgrade = (type) => {
-    buyUpgrade(type, {
-      coins,
-      updateCoinBalance,
-      speedUpgradeLevel,
-      setSpeedUpgradeLevel,
-      speedUpgradePrice,
-      setSpeedUpgradePrice,
-      energyUpgradeLevel,
-      setEnergyUpgradeLevel,
-      energyUpgradePrice,
-      setEnergyUpgradePrice
-    });
+  const buyEgg = (rarity, price) => {
+    if (coins >= price) {
+      const availableEggs = eggs.filter((egg) => egg.rarity === rarity);
+      if (availableEggs.length > 0) {
+        const randomIndex = Math.floor(Math.random() * availableEggs.length);
+        const selectedEgg = availableEggs[randomIndex];
+        addEggToInventory(selectedEgg);
+        updateCoinBalance(-price);
+      }
+    } else {
+      alert(`Вам не хватает ${price - coins} монет`);
+    }
   };
 
-  const handleBuyEgg = (rarity, price) => {
-    buyEgg(rarity, price, { coins, updateCoinBalance, addEggToInventory });
+  const buyUpgrade = (type) => {
+    if (type === 'speed') {
+      if (coins >= speedUpgradePrice) {
+        updateCoinBalance(-speedUpgradePrice);
+        setSpeedUpgradeLevel(speedUpgradeLevel + 1);
+        setSpeedUpgradePrice(speedUpgradePrice * 2);
+      } else {
+        alert(`Вам не хватает ${speedUpgradePrice - coins} монет`);
+      }
+    } else if (type === 'energy') {
+      if (coins >= energyUpgradePrice) {
+        updateCoinBalance(-energyUpgradePrice);
+        setEnergyUpgradeLevel(energyUpgradeLevel + 1);
+        setEnergyUpgradePrice(energyUpgradePrice * 2);
+      } else {
+        alert(`Вам не хватает ${energyUpgradePrice - coins} монет`);
+      }
+    }
   };
 
   return (
     <div id="shopModal" className="modal">
       <div className="modal-content">
-        <span className="close" onClick={() => document.getElementById('shopModal').style.display = 'none'}>&times;</span>
+        <span className="close" onClick={closeShopModal}>&times;</span>
         <h2>Магазин</h2>
         <div id="shopItems">
           <div className="shopItem" id="buyCommonEgg">
-            <button className="common-egg-button" onClick={() => handleBuyEgg('Common', 50)}>Купить обычное яйцо - 50 монет</button>
+            <button className="common-egg-button" onClick={() => buyEgg('Common', 50)}>Купить обычное яйцо - 50 монет</button>
           </div>
           <div className="shopItem" id="buyUncommonEgg">
-            <button className="uncommon-egg-button" onClick={() => handleBuyEgg('Uncommon', 1000)}>Купить необычное яйцо - 1000 монет</button>
+            <button className="uncommon-egg-button" onClick={() => buyEgg('Uncommon', 1000)}>Купить необычное яйцо - 1000 монет</button>
           </div>
           <div className="shopItem" id="buyRareEgg">
-            <button className="rare-egg-button" onClick={() => handleBuyEgg('Rare', 10000)}>Купить редкое яйцо - 10000 монет</button>
+            <button className="rare-egg-button" onClick={() => buyEgg('Rare', 10000)}>Купить редкое яйцо - 10000 монет</button>
           </div>
           <div className="shopItem" id="buySpeedUpgrade">
-            <button className="upgrade-speed-button" onClick={() => handleBuyUpgrade('speed')}>Улучшение скорости (Цена: <span id="speedUpgradePrice">{speedUpgradePrice}</span> монет) <span id="speedUpgradeLevel">Lv {speedUpgradeLevel}</span></button>
+            <button className="upgrade-speed-button" onClick={() => buyUpgrade('speed')}>Улучшение скорости (Цена: {speedUpgradePrice} монет) Lv {speedUpgradeLevel}</button>
           </div>
           <div className="shopItem" id="buyEnergyUpgrade">
-            <button className="upgrade-energy-button" onClick={() => handleBuyUpgrade('energy')}>Улучшение энергии (Цена: <span id="energyUpgradePrice">{energyUpgradePrice}</span> монет) <span id="energyUpgradeLevel">Lv {energyUpgradeLevel}</span></button>
+            <button className="upgrade-energy-button" onClick={() => buyUpgrade('energy')}>Улучшение энергии (Цена: {energyUpgradePrice} монет) Lv {energyUpgradeLevel}</button>
           </div>
         </div>
       </div>
